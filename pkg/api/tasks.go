@@ -2,10 +2,9 @@ package api
 
 import (
 	"fmt"
+	"github.com/pydjo25/go_final_project/pkg/db"
 	"net/http"
 	"strconv"
-
-	"main.go/pkg/db"
 )
 
 type TasksResp struct {
@@ -20,11 +19,10 @@ func TasksHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	limitStr := r.URL.Query().Get("limit")
-	limit := 50
 
 	if limitStr != "" {
 		var err error
-		limit, err = strconv.Atoi(limitStr)
+		limit, err := strconv.Atoi(limitStr)
 		if err != nil || limit <= 0 {
 			ErrorJSON(w, http.StatusBadRequest, fmt.Errorf("limit must be a positive integer"))
 			return

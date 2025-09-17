@@ -2,6 +2,7 @@ package api
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"slices"
@@ -11,12 +12,16 @@ import (
 )
 
 func NextDateHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		ErrorJSON(w, http.StatusMethodNotAllowed, fmt.Errorf("method not allowed"))
+		return
+	}
 
 	nowStr := r.FormValue("now")
 	date := r.FormValue("date")
 	repeat := r.FormValue("repeat")
 
-	now, err := time.Parse("20060102", nowStr)
+	now, err := time.Parse(startData, nowStr)
 	if err != nil {
 		http.Error(w, "date and repeat parameters are required", http.StatusBadRequest)
 	}
@@ -193,7 +198,7 @@ func mCount(now, date time.Time, pieces []string) (string, error) {
 
 func NextDate(now time.Time, dstart string, repeat string) (string, error) {
 
-	date, err := time.Parse("20060102", dstart)
+	date, err := time.Parse(startData, dstart)
 	if err != nil {
 		return "", errors.New("error parsing the resulting date")
 	}

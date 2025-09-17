@@ -2,9 +2,8 @@ package api
 
 import (
 	"fmt"
+	"github.com/pydjo25/go_final_project/pkg/db"
 	"time"
-
-	"main.go/pkg/db"
 )
 
 func checkAndSetDate(task *db.Task) error {
@@ -15,7 +14,7 @@ func checkAndSetDate(task *db.Task) error {
 		return nil
 	}
 
-	t, err := time.Parse("20060102", task.Date)
+	t, err := time.Parse(startData, task.Date)
 	if err != nil {
 		return fmt.Errorf("invalid date format. Expected YYYYMMDD")
 	}
@@ -47,5 +46,5 @@ func afterNow(now, date time.Time) bool {
 }
 
 func formatDate(t time.Time) string {
-	return t.Format("20060102")
+	return t.Format(startData)
 }

@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"os"
-
 	_ "modernc.org/sqlite"
 )
 
@@ -66,4 +65,15 @@ func Init() error {
 	}
 
 	return nil
+}
+
+func Close() {
+	if db != nil {
+		err := db.Close()
+		if err != nil {
+			log.Printf("error closing database")
+		} else {
+			log.Panicln("database connection closed")
+		}
+	}
 }

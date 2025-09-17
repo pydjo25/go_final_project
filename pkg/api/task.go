@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"main.go/pkg/db"
+	"github.com/pydjo25/go_final_project/pkg/db"
 )
 
 func taskHandler(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +47,6 @@ func updateTaskHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorJSON(w, http.StatusBadRequest, fmt.Errorf("JSON parsing error"))
 		return
 	}
-	defer r.Body.Close()
 
 	if task.Id == "" {
 		ErrorJSON(w, http.StatusBadRequest, fmt.Errorf("id not specified"))

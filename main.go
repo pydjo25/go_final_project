@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"main.go/pkg/api"
-	"main.go/pkg/db"
+	"github.com/pydjo25/go_final_project/pkg/api"
+	"github.com/pydjo25/go_final_project/pkg/db"
 )
 
 func main() {
@@ -14,11 +14,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error initializing database: %v", err)
 	}
+	defer db.Close()
 
 	api.Init()
 
 	http.Handle("/", http.FileServer(http.Dir("./web")))
-
+	api.InitSing()
 	port := os.Getenv("TODO_PORT")
 	if port == "" {
 		port = "7540"

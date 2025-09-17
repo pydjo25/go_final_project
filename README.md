@@ -42,7 +42,7 @@ Todo App - Система управления задачами
     Соберите Docker-образ:
         docker build -t my-todo .
     Запустите контейнер:
-    docker run -d -p 7540:7540 -v my-todo:/data --name my-todo my-todo
+        docker run -e TODO_PORT=8080 -p 8080:8080 my-todo
 
 Приложение будет доступно по адресу: http://localhost:7540
 

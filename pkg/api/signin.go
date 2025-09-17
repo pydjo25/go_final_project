@@ -11,13 +11,18 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+var password string
+
+func InitSing() {
+	password = os.Getenv("TODO_PASSWORD")
+}
+
 func signinHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
-	password := os.Getenv("TODO_PASSWORD")
 	if password == "" {
 		http.Error(w, `{"error": "Authentication not required"}`, http.StatusBadRequest)
 		return
@@ -56,7 +61,6 @@ func signinHandler(w http.ResponseWriter, r *http.Request) {
 
 func auth(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		password := os.Getenv("TODO_PASSWORD")
 		if password == "" {
 			next.ServeHTTP(w, r)
 			return

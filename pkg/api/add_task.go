@@ -3,10 +3,11 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 
-	"main.go/pkg/db"
+	"github.com/pydjo25/go_final_project/pkg/db"
 )
 
 func addTaskHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +18,6 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorJSON(w, http.StatusBadRequest, fmt.Errorf("error data conversion"))
 		return
 	}
-	defer r.Body.Close()
 
 	if task.Title == "" {
 		ErrorJSON(w, http.StatusBadRequest, fmt.Errorf("error header is empty"))
@@ -39,5 +39,9 @@ func addTaskHandler(w http.ResponseWriter, r *http.Request) {
 	response := map[string]any{
 		"id": strconv.FormatInt(id, 10),
 	}
-	WriteJSON(w, http.StatusOK, response)
+	err = WriteJSON(w, http.StatusOK, response)
+	if err != nil {
+		log.Printf("Failed to write JSON response: %v", err)
+		ErrorJSON(w, http.StatusInternalServerError, err)
+	}
 }

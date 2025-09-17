@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"main.go/pkg/db"
+	"github.com/pydjo25/go_final_project/pkg/db"
 )
 
 func taskDoneHandler(w http.ResponseWriter, r *http.Request) {
